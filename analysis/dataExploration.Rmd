@@ -1,0 +1,176 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r, echo = false, include=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+
+## Data exploration
+Starting with the zenodo download from https://zenodo.org/record/4953762#.YYQmzJso_s2, we explore the files first. We have 6 sites either in Portugal or in Denmark. 
+
+```{r}
+data_dir <- "../data/raw-data/"
+
+read.csv(paste0(data_dir, "01_Sites_coord.csv"))
+# UTM Coordinates need clean-up, bc all information in one cell TODO
+
+read.csv(paste0(data_dir, "02_Polygons_coord.csv"))
+# Coordinates need clean-up, bc not in tidy format, center coords given
+
+# Pesticide applications on one site in Denmark
+read.csv(paste0(data_dir, "Table_I_Pesticide_application.csv"))
+
+# Resources
+# =========
+reso <- read.csv(paste0(data_dir, "Table_II_Resource_providing_unit_coord.csv"))
+# observations per site
+
+# Observations per polygon
+x <- reso %>% 
+  group_by(siteNo, polygonId) %>%
+  summarise(n = n())
+hist(x$n,  breaks = 300)
+
+# only keep sites with at least 6 observations? 
+
+# observations per month & year
+
+x <- reso %>% 
+  group_by(siteNo, sampY, sampM) %>%
+  summarize(n = n())
+
+ggplot(data=x, aes(x = factor(sampM), y = n)) + 
+  facet_grid(rows = vars(sampY)) + 
+  geom_boxplot()
+
+```
+
+
+
+
+
+```{r}
+
+table(reso$siteNo)
+# observations per polygon 
+hist(sort(table(reso$polygonId), decreasing = TRUE))
+
+# observations per month 
+table(reso$sampM)
+# resource availability in classes, 1 = low, 3 = high
+table(reso$abundanceClass)
+names(reso)
+library(dplyr)
+reso2 <- reso %>% 
+  group_by(resId, sampY, sampM, sampD, polygonId) %>%
+  summarize(abundanceClass = abundanceClass)  
+
+table(reso$siteNo)
+# siteNo not unique
+
+read.csv(paste0(data_dir, "Table_III_Hives.csv"))
+# gives hive IDs
+
+read.csv(paste0(data_dir, "Table_IV_Colony_management.csv"))
+
+```
+
+## Colony performance
+
+```{r}
+
+perf <- read.csv(paste0(data_dir, "Table_V_Colony_inspection.csv"))
+
+
+# Colony weight
+
+# n observations per month & year
+
+x <- perf %>% 
+  group_by(siteNo, sampY, sampM) %>%
+  filter(paramText == "Number of adult bees") %>%
+  summarize(n_observations = n())
+
+ggplot(data=x, aes(x = factor(sampM), y = n_observations)) + 
+  facet_grid(rows = vars(sampY)) + 
+  geom_boxplot()
+
+# TODO: function to calculate measurement day (day of year) from sampM, sampD 
+
+```
+
+
+
+```{r}
+
+
+table(perf$resId) # MSP thoughts: it looks like resID is unique per observation and contains no site/hive information? 
+
+
+table(perf$siteNo)
+table(perf$hiveNo)
+
+# How many observations per hive?   
+perf %>% group_by(resId, sampY, sampM, sampD, paramText) %>%
+  summarize(n_observations = n())
+
+
+# Adult bees
+# ==========
+
+table(perf$paramText)
+names(perf) 
+
+perf_adult_bees <- perf %>% 
+  group_by(resId, sampY, sampM, sampD, resVal) %>%
+  filter(paramText == "Number of adult bees") %>%
+  summarize(adult_bees = resVal)
+
+
+
+
+
+ggplot(data = perf_adult_bees, aes(x = sampM, y = adult_bees))+ 
+  geom_point()
+# Colony size seems too low? (< 8000 for all colonies) 
+
+perf_col_weight <- perf %>% 
+  group_by(resId, sampY, sampM, sampD, resVal) %>%
+  filter(paramText == "Colony weight") %>%
+  summarize(colony_weight = resVal,
+            n_records = n())
+
+count(perf_col_weight$resVal)
+
+ggplot(data = perf_col_weight, aes(x = factor(sampM), y = colony_weight))+ 
+  geom_point(col = "grey")+
+  geom_boxplot()+
+  ylim(0, max(perf_col_weight$colony_weight))
+
+# How many records per colony? 
+
+
+
+
+read.csv(paste0(data_dir, "Table_VI_SSD2.csv"))
+
+read.csv(paste0(data_dir, "Table_VII_Observation_colony.csv"))
+
+# subset 1:
+# One location with monthly records of resources, enough hive records, etc 
+
+# can we link resources and performance? 
+sum(reso$resId  %in% perf$resId) #  no single match between IDs, 
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

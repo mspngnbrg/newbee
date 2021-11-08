@@ -1,0 +1,20 @@
+---
+title: "Input file generation"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Abstract / outline
+
+Thus, we generated new, location-specific input files for the BEEHAVE model. 
+We provide foraging hours and landscapes with a daily resource availability. 
+
+## Analysis order
+
+Data downloads from https://zenodo.org/record/4953762#.YYQmzJso_s2. 
+Data provided as .csv mostly, saved in data/raw-data
+
+Data exploration with analysis/dataExploration.Rmd
