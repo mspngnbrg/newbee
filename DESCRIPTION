@@ -4,9 +4,7 @@ Title: Create input files for the BEEHAVE model
 Version: 0.1.0
 Author: MSP
 Maintainer: m.spangenberg@posteo.de
-Description: On "a wokshop", "we" discovered that BEEHAVE simulations match observations for different regions 
-with a "varying success rate". We speculated that first of all weather files, egg-laying rate and resource provision of the landscape 
-should match to improve simulation accuracy, because for example the application of the same egg-laying rate distribution (egg-laying  ~ day of the year), derived from middle-Europe colonies (?) would probably result in too early beginning of egg-laying in the north of Europe and in a too late beginning for the south of Europe. colonies . Thus, we performed an optimization 
+Description: We start with a shiny app to explore the EFSA MUST-B data. 
 
 License: What license is it under?
 Encoding: UTF-8

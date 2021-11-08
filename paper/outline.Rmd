@@ -1,5 +1,5 @@
 ---
-title: "Input file generation"
+title: "EFSA MUST-B data exploration"
 output: pdf_document
 ---
 
@@ -7,14 +7,14 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Abstract / outline
+## Useful links
+Data description: 
 
-Thus, we generated new, location-specific input files for the BEEHAVE model. 
-We provide foraging hours and landscapes with a daily resource availability. 
+https://www.efsa.europa.eu/en/supporting/pub/en-6695
 
-## Analysis order
+Zenodo data repository: 
 
 Data downloads from https://zenodo.org/record/4953762#.YYQmzJso_s2. 
 Data provided as .csv mostly, saved in data/raw-data
 
-Data exploration with analysis/dataExploration.Rmd
+Data exploration with shiny_app/app.R 
