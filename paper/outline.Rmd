@@ -15,7 +15,8 @@ BEEHAVE needs:
  
 ## Foraging hours
 @vicens1996 observed bees in Italy, and report minimum foraging temperatures of 12.5 °C and a minimum foraging radiation of 229 W/m² for April, but values in other months are even lower (min temp of 12 °C and  min radiation of approx. 160 W/m²) (see Fig. 4 within Vicens & Bosch). 
-These values are used in the $get\_foraging\_suitability$ function. TODO rename to $get\_foraging\_hours$. 
+These values are used in the $get\_foraging\_hours$ function. 
+TODO: decide which thresholds to use, and also wheter to include wind-speed and max temperature thresholds as well. 
 
 ## Useful links
 Data description: 

@@ -9,7 +9,8 @@ Here we give an overview where and how we gathered the data.
 
 Data downloaded from https://zenodo.org/record/4953762#.YYQmzJso_s2, we used v2 because it included GPS positions of sites. 
 
-## Foraging hours
+## Foraging hours from JRC
 
-We downloaded site-specific irradiaten and temperature data from https://re.jrc.ec.europa.eu/pvg_tools/en/#TMY
+We downloaded site-specific irradiation and temperature data from https://re.jrc.ec.europa.eu/pvg_tools/en/#TMY
 
+Notes: I used global_irradiation, probably from year 2013. TODO: is there radiation data available also for 2019 and 2020? Maybe somewhere else? 

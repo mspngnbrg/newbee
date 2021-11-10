@@ -48,6 +48,18 @@ ggplot(data=x, aes(x = factor(sampM), y = n)) +
   facet_grid(rows = vars(sampY)) + 
   geom_boxplot()
 
+hives <- read.csv(paste0(data_dir, "Table_III_Hives.csv"))
+
+colony_management <- read.csv(paste0(data_dir, "Table_IV_Colony_management.csv"))
+
+colony_inspection <- read.csv(paste0(data_dir, "Table_V_Colony_inspection.csv"))
+
+
+# stressors
+ssd <- read.csv(paste0(data_dir, "Table_VI_SSD2.csv"))
+
+obs <- read.csv(paste0(data_dir, "Table_VII_Observation_colony.csv"))
+
 ```
 
 

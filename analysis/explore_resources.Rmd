@@ -1,0 +1,76 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+The MUST-B data contains foraging polygons, and polygons are classified by their resource provision (classes 1-3, low-high). 
+
+As a starter, we want to produce 3 flower patches, one for each resource provision class.
+
+Since we have also the center coordinate for each foraging polygon, we probably can also calculate the distance to the hives (site/hive locations SHOULD be in center of the foraging patches, or?). 
+
+From the data description: 
+For shrub and tree:
+3 = large and abundant
+2 = of intermediate size or small
+but abundant
+1 = small and not abundant
+For herb and sub-shrub:
+3 = covers at least 75% of the
+area and flowers are abundant
+2 = covers 25-75% of the area
+and flowers are abundant
+1 = covers less than 25% and/or
+flowers are not abundant
+
+```{r}
+# Resources
+# =========
+data_dir <- "../data/raw-data/"
+
+data <- read.csv(paste0(data_dir, "Table_II_Resource_providing_unit_coord.csv"))
+data$site_id <- newbee::get_site_names(data$siteNo)
+
+# only keep Hinnerup data
+data <- data[data$site_id == "Hinnerup", ]
+table(data$vegetativeType)
+data <- data[data$vegetativeType == "Herb", ]
+
+data$day_of_year <- newbee::calculate_day_of_year(data$sampM, data$sampD)
+
+table(data$abundanceClass)
+table(data$flowering)
+table(data$nectar)
+table(data$pollen)
+# obviously all flower polygons provide pollen and nectar? TODO: check in data description
+
+# get polygon area
+polygons <- read.csv(paste0(data_dir, "02_Polygons_coord.csv"))
+
+data$area <- newbee::get_polygon_area(df1 = polygons,
+                         df2 = data) / 10000 # [ha]
+
+# polygon size per resource class
+x <- data %>% 
+  group_by(sampY, day_of_year, abundanceClass) %>% # polygonId # some polygons have all three vegetation types
+  summarise(patchsize = sum(area),
+            veg_types = n())
+
+x$veg_types
+
+months <- cumsum(c(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31))
+
+ggplot(data=x, aes(x = day_of_year, y = patchsize)) + 
+  facet_grid(rows = vars(abundanceClass), cols = vars(sampY)) + 
+  geom_point()+
+  xlim(0, 365)+
+  xlab("Day of year")+ 
+  ylab("Size [ha]")+
+  geom_vline(xintercept = months, lty = 2, col = "grey", lwd = .5)+
+ theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+  #,
+#panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+```
+

@@ -3,54 +3,47 @@ title: "Coordinates"
 output: html_notebook
 ---
 
+## Extract MUST-B site coordinates
+We extract MUST-B coordinates and transpose them to lat lon data, as required for downloading meteorological data.
+
 
 ```{r}
-
 library("terra")
 
 data_dir <- "../data/raw-data/"
 
 d <- read.csv(paste0(data_dir, "01_Sites_coord.csv"))
-d$site_id <- get_site_names(d$siteNo)
-d$country <- get_site_country(d$siteNo)
+d$site_id <- newbee::get_site_names(d$siteNo)
+d$country <- newbee::get_site_country(d$siteNo)
 head(d)
 
 d$UTMCoordinates
 x <- c(561126.94245, 657062, 535727.42082 , 564475, 651424, 651048.14937, 643969.20813)
 y <- c(6236850.10632, 4413740, 6260998.83420, 4433382, 6133352, 6134228.08031, 6147853.09089)
 
-points <- cbind(x, y)
-points_DK <- points[d$country == "DK", ]
-
-v <- vect(points_DK, crs="+proj=utm +zone=32 +datum=WGS84  +units=m")
-y <- project(v, "+proj=longlat +datum=WGS84")
-geom(y)[, c("x", "y")]
-d$site_id[d$country == "DK"]
-
-points_PT <- points[d$country == "PT", ]
-
-v <- vect(points_PT, crs="+proj=utm +zone=29 +datum=WGS84  +units=m")
-y <- project(v, "+proj=longlat +datum=WGS84")
-geom(y)[, c("x", "y")]
-
-# As a starter, I downloaded a typical year, and hourly data from Hinnerup, DK. I had to choose a slope and azimuth, 
-# and set it to 35 and 0, respectively. 
-
-
-
-
 # transform data to lat lon format, as required for 
 # https://re.jrc.ec.europa.eu/pvg_tools/en/#TMY
 
 # https://stackoverflow.com/questions/30018098/how-to-convert-utm-coordinates-to-lat-and-long-in-r 
 
+# Data from Denmark
+points <- cbind(x, y)
+points_DK <- points[d$country == "DK", ]
 
+v <- terra::vect(points_DK, crs="+proj=utm +zone=32 +datum=WGS84  +units=m")
+y <- terra::project(v, "+proj=longlat +datum=WGS84")
+terra::geom(y)[, c("x", "y")]
+d$site_id[d$country == "DK"]
 
-get_site_names(1)
+# Data from Portugal
+points_PT <- points[d$country == "PT", ]
 
+v <- terra::vect(points_PT, crs="+proj=utm +zone=29 +datum=WGS84  +units=m")
+y <- terra::project(v, "+proj=longlat +datum=WGS84")
+terra::geom(y)[, c("x", "y")]
 
-get_site_country(1)
-# UTM Coordinates need clean-up, bc all information in one cell TODO
+# Next step: download meteorological data
+
 ```
 
 
