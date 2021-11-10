@@ -1,0 +1,52 @@
+---
+title: "Foraging hours"
+output: html_notebook
+---
+
+# Explore a typical meteorological year
+Using data from Hinnerup, (DK), we explore how many foraging hours were available in this typical meteorological year (tmy). 
+We set a threshold for the minimum temperature and for the minimum global irradiance (W/m²), and sum up all hours per day with values reaching or exceeding these thresholds.  
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library('ggthemes')
+
+# manually removed the last part with the legend from the .csv!
+
+tmy <- read.csv("../data/raw-data/tmy_Hinnerup_56.273_9.987_2007_2016.csv", skip = 16, header = T)
+tmy$datetime <- seq.POSIXt(as.POSIXct("2013-01-01 01:00"), by = "60 min", length.out = length(tmy$time))
+
+#T2m: 2-m air temperature (degree Celsius)
+#RH: relative humidity (%)
+#G(h): Global irradiance on the horizontal plane (W/m2)
+#Gb(n): Beam/direct irradiance on a plane always normal to sun rays (W/m2)
+#Gd(h): Diffuse irradiance on the horizontal plane (W/m2)
+#IR(h): Surface infrared (thermal) irradiance on a horizontal plane (W/m2)
+#WS10m: 10-m total wind speed (m/s)
+#WD10m: 10-m wind direction (0 = N, 90 = E) (degree)
+#SP: Surface (air) pressure (Pa)
+#PVGIS (c) European Union, 2001-2021
+
+names(tmy) <- c("time.UTC.", "temperature_celsius", "rel_humidity", "global_irridiance", "Gb.n.", "Gd.h.", "infrared", "wind_speed", "WD10m", "air_pressure", "datetime")
+
+# plot(tmy$datetime, tmy$temperature_celsius)
+# plot(tmy$datetime, tmy$infrared)
+# plot(tmy$datetime, tmy$global_irridiance)
+
+tmy$foraging_suitability <- get_foraging_suitability(tmy)
+
+# summarize per day & plot
+
+tmy$date <- as.Date(tmy$datetime) 
+
+x <- tmy %>%
+  group_by(date) %>%
+  summarize(foraging_hours = sum(foraging_suitability))
+
+
+ggplot(data = x, aes(x = date, y = foraging_hours))+
+  geom_line()+
+  theme_classic()
+```

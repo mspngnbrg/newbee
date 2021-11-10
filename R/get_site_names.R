@@ -9,3 +9,4 @@ get_site_names <- function(siteNo){
     siteNo == 340 -> "Flakkebjerg2020"
   )
 }
+
