@@ -1,3 +1,12 @@
+#' calculate_day_of_year
+#'
+#' @param month
+#' @param day
+#'
+#' @return
+#' @export
+#'
+#' @examples
 calculate_day_of_year <- function(month, day) {
 
   # month days

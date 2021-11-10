@@ -1,3 +1,11 @@
+#' get_site_names
+#'
+#' @param siteNo
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_site_names <- function(siteNo){
   memisc::cases(
     siteNo == 1 -> "Foulum",

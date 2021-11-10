@@ -2,10 +2,9 @@ Package: newbee
 Type: Package
 Title: Create input files for the BEEHAVE model 
 Version: 0.1.0
-Author: MSP
-Maintainer: m.spangenberg@posteo.de
+Author: MSP [aut]
+Maintainer: MSP <m.spangenberg@posteo.de>
 Description: We start with a shiny app to explore the EFSA MUST-B data. 
-
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

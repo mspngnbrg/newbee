@@ -1,3 +1,11 @@
+#' get_foraging_suitability
+#'
+#' @param df
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_foraging_suitability <- function(df){
 
   # foraging suitability

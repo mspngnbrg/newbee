@@ -1,3 +1,11 @@
+#' get_site_country
+#'
+#' @param siteNo
+#'
+#' @return
+#' @export
+#'
+#' @examples
 get_site_country <- function(siteNo){
   memisc::cases(
     siteNo == 1 -> "DK",
