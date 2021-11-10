@@ -9,9 +9,9 @@ We set a threshold for the minimum temperature and for the minimum global irradi
 
 ```{r}
 
-library(dplyr)
-library(ggplot2)
-library('ggthemes')
+library("dplyr")
+library("ggplot2")
+library("ggthemes")
 
 # manually removed the last part with the legend from the .csv!
 
@@ -35,7 +35,7 @@ names(tmy) <- c("time.UTC.", "temperature_celsius", "rel_humidity", "global_irri
 # plot(tmy$datetime, tmy$infrared)
 # plot(tmy$datetime, tmy$global_irridiance)
 
-tmy$foraging_suitability <- get_foraging_suitability(tmy)
+tmy$foraging_suitability <- newbee::get_foraging_hours(tmy)
 
 # summarize per day & plot
 
@@ -49,4 +49,6 @@ x <- tmy %>%
 ggplot(data = x, aes(x = date, y = foraging_hours))+
   geom_line()+
   theme_classic()
+
+saveRDS(x, "../data/tmy_foraging_hours_hinnerup.rds")
 ```

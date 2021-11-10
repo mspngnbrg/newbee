@@ -1,4 +1,4 @@
-#' get_foraging_suitability
+#' get_foraging_hours
 #'
 #' @param df
 #'
@@ -6,11 +6,11 @@
 #' @export
 #'
 #' @examples
-get_foraging_suitability <- function(df){
+get_foraging_hours <- function(df){
 
   # foraging suitability
-  min_temp <- 12 # 12 °C Kovac & Schmaranzer 1996
-  min_irridiance <- 100 # as soon as there is light, bees will fly
+  min_temp <- 12.5 # Vicens & Bosch (1996); 12 °C also found by Kovac & Schmaranzer 1996
+  min_irridiance <- 229 # W/m² Vicens & Bosch (1996) Physiological and chemical ecology
 
   temp <- df$temperature_celsius
   irridiance <- df$global_irridiance

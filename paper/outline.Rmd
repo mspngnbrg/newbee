@@ -7,6 +7,16 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## The plan
+Can we develop scenarios for BEEHAVE with the MUST-B / EFSA data, in combination with other available data. 
+
+BEEHAVE needs:
+ - Foraging hours per day, probably derived from radiation and temperatures in one-hour resolution.
+ 
+## Foraging hours
+@vicens1996 observed bees in Italy, and report minimum foraging temperatures of 12.5 °C and a minimum foraging radiation of 229 W/m² for April, but values in other months are even lower (min temp of 12 °C and  min radiation of approx. 160 W/m²) (see Fig. 4 within Vicens & Bosch). 
+These values are used in the $get\_foraging\_suitability$ function. TODO rename to $get\_foraging\_hours$. 
+
 ## Useful links
 Data description: 
 

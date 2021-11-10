@@ -1,0 +1,15 @@
+---
+title: "Data downloads"
+output: html_notebook
+---
+
+Here we give an overview where and how we gathered the data. 
+
+## MUST-B EFSA data source
+
+Data downloaded from https://zenodo.org/record/4953762#.YYQmzJso_s2, we used v2 because it included GPS positions of sites. 
+
+## Foraging hours
+
+We downloaded site-specific irradiaten and temperature data from https://re.jrc.ec.europa.eu/pvg_tools/en/#TMY
+
