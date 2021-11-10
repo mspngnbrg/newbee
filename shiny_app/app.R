@@ -6,10 +6,8 @@ library(ggplot2)
 library('ggthemes')
 
 perf <- read.csv("../data/raw-data/Table_V_Colony_inspection.csv")
-perf <- perf[1:10, ]
-reso <- read.csv("../data/raw-data/Table_II_Resource_providing_unit_coord.csv")
-reso <- reso[1:10, ]
 
+reso <- read.csv("../data/raw-data/Table_II_Resource_providing_unit_coord.csv")
 
 #variable_of_interest <- setNames(perf$paramText)
 
