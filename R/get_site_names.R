@@ -6,8 +6,9 @@
 #' @export
 #'
 #' @examples
-get_site_names <- function(siteNo){
-  memisc::cases(
+get_site_names <- function(df){
+  siteNo <- df$siteNo
+  site_name <- memisc::cases(
     siteNo == 1 -> "Foulum",
     siteNo == 2 -> "Hinnerup",
     siteNo == 3 -> "Flakkebjerg",
@@ -16,5 +17,6 @@ get_site_names <- function(siteNo){
     siteNo ==6 -> "Idanha_a_nova",
     siteNo == 340 -> "Flakkebjerg2020"
   )
+  return(site_name)
 }
 

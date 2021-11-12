@@ -48,7 +48,12 @@ x <- tmy %>%
 
 ggplot(data = x, aes(x = date, y = foraging_hours))+
   geom_line()+
-  theme_classic()
+  ylab("Foraging hours per day [h]")+
+  xlab("Date")+ 
+   theme_bw()+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+
+ggsave("../figures/hinn_foraging_hours.pdf")
 
 saveRDS(x, "../data/tmy_foraging_hours_hinnerup.rds")
 ```

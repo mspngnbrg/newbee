@@ -1,0 +1,45 @@
+---
+title: "Explore bee colonies"
+output: html_notebook
+---
+
+We want to quickly produce some bee performance plots from the MUST-B observations. We choose hives from the Hinnerup region, Denmark, for simplicity here. 
+To explore all data, please use the shiny app in the shine_app folder (works only from within RStudio).
+
+```{r, echo=TRUE, include = TRUE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+
+perf <- read.csv("../data/raw-data/Table_V_Colony_inspection.csv")
+
+perf$site_name <-  newbee::get_site_names(perf)
+perf <- perf[perf$site_name == "Hinnerup", ]
+
+perf$day_of_year <- newbee::calculate_day_of_year(perf$sampM, perf$sampD)
+
+# remove colony records from the year 1970 
+perf <- perf[perf$sampY > 1970, ] 
+
+outcomes <- unique(perf$paramText)
+
+for(OUTCOME in outcomes){
+  
+  df <- perf[perf$paramText == OUTCOME, ]
+  
+  df <- df %>%
+        group_by(siteNo, hiveNo, sampY, day_of_year, paramText, resUnit_desc) %>%
+        summarize(max = max(resVal))
+  
+  print(ggplot(data=df, aes(x = day_of_year, y = max, col = factor(hiveNo))) +
+         facet_grid(rows = vars(sampY), scales = "free") +
+         geom_point()+
+         geom_line(alpha = 0.2, lwd = 0.8)+
+         xlim(0, 365)+
+         xlab("Day of the year")+
+         ylab(paste0( OUTCOME, " [", unique(df$resUnit_desc), "]"))+
+         ggtitle(OUTCOME)+
+         theme_classic()+
+         theme(legend.position="bottom"))
+}
+```
+

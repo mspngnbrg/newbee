@@ -69,6 +69,8 @@ ggplot(data=x, aes(x = day_of_year, y = patchsize)) +
   geom_vline(xintercept = months, lty = 2, col = "grey", lwd = .5)+
  theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+
+ggsave("../figures/hinn_res.pdf")
   #,
 #panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
